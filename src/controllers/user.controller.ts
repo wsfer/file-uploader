@@ -8,4 +8,12 @@ const getRegister = asyncHandler(async (req, res) => {
   res.render('user/register');
 });
 
-export default { getLogin, getRegister };
+const postLogin = asyncHandler(async (req, res) => {
+  res.redirect('/');
+});
+
+const postRegister = asyncHandler(async (req, res) => {
+  res.redirect('/');
+});
+
+export default { getLogin, getRegister, postLogin, postRegister };
