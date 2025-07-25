@@ -2,6 +2,20 @@
 <html lang="en">
 <%- include('../partials/head', { title: 'Register' }) %>
 <body>
-    Register
+  <form action="/register" method="post">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username">
+
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email">
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+
+    <label for="confirm-password">Confirm password</label>
+    <input type="password" name="confirmPassword" id="confirm-password">
+
+    <button type="submit">Submit</button>
+  </form>
 </body>
 </html>

@@ -2,6 +2,14 @@
 <html lang="en">
 <%- include('../partials/head', { title: 'Login' }) %>
 <body>
-    Login
+  <form action="/login" method="post">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username">
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+    
+    <button type="submit">Submit</button>
+  </form>
 </body>
 </html>
