@@ -1,5 +1,6 @@
 import express from 'express';
 import session from './middlewares/session.middleware';
+import passport from './modules/passport';
 import prisma from './modules/prisma';
 import userRouter from './routes/user.routes';
 
@@ -10,6 +11,12 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(session);
+app.use(passport.session());
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 app.use('/', userRouter);
 
