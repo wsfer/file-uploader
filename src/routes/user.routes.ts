@@ -9,5 +9,6 @@ userRouter.get('/login', userController.getLogin);
 userRouter.get('/register', userController.getRegister);
 userRouter.post('/login', passport.authenticate('local'));
 userRouter.post('/register', userController.postRegister);
+userRouter.post('/logout', userController.postLogout);
 
 export default userRouter;

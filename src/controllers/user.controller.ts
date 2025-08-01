@@ -25,4 +25,13 @@ const postRegister = asyncHandler(async (req, res) => {
   res.redirect('/');
 });
 
-export default { getIndex, getLogin, getRegister, postRegister };
+const postLogout = asyncHandler(async (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+});
+
+export default { getIndex, getLogin, getRegister, postRegister, postLogout };
