@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import asyncHandler from 'express-async-handler';
 import prisma from '../modules/prisma';
 
@@ -15,7 +16,12 @@ const postLogin = asyncHandler(async (req, res) => {
 
 const postRegister = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
-  await prisma.user.create({ data: { username, email, password } });
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  await prisma.user.create({
+    data: { username, email, password: hashedPassword },
+  });
+
   res.redirect('/');
 });
 
