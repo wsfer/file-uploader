@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import asyncHandler from 'express-async-handler';
+import passport from '../modules/passport';
 import prisma from '../modules/prisma';
 
 const getIndex = asyncHandler(async (req, res) => {
@@ -12,6 +13,11 @@ const getLogin = asyncHandler(async (req, res) => {
 
 const getRegister = asyncHandler(async (req, res) => {
   res.render('user/register');
+});
+
+const postLogin = passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
 });
 
 const postRegister = asyncHandler(async (req, res) => {
@@ -34,4 +40,11 @@ const postLogout = asyncHandler(async (req, res, next) => {
   });
 });
 
-export default { getIndex, getLogin, getRegister, postRegister, postLogout };
+export default {
+  getIndex,
+  getLogin,
+  getRegister,
+  postLogin,
+  postRegister,
+  postLogout,
+};
