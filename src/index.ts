@@ -3,6 +3,7 @@ import session from './middlewares/session.middleware';
 import passport from './modules/passport';
 import prisma from './modules/prisma';
 import userRouter from './routes/user.routes';
+import errorHandler from './middlewares/errorHandler.middleware';
 
 const app = express();
 
@@ -24,5 +25,7 @@ app.get('/test', async (req, res) => {
   const users = await prisma.user.findMany();
   res.json(users);
 });
+
+app.use(errorHandler);
 
 app.listen(3000, () => console.log(`Server started`));
