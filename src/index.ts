@@ -4,6 +4,7 @@ import passport from './modules/passport';
 import prisma from './modules/prisma';
 import userRouter from './routes/user.routes';
 import folderRouter from './routes/folder.routes';
+import fileRouter from './routes/file.routes';
 import errorHandler from './middlewares/errorHandler.middleware';
 
 const app = express();
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 
 app.use('/', userRouter);
 app.use('/folder', folderRouter);
+app.use('/file', fileRouter);
 
 app.get('/test', async (req, res) => {
   const users = await prisma.user.findMany();
