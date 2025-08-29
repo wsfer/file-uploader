@@ -25,11 +25,6 @@ app.use('/', userRouter);
 app.use('/folder', folderRouter);
 app.use('/file', fileRouter);
 
-app.get('/test', async (req, res) => {
-  const users = await prisma.user.findMany();
-  res.json(users);
-});
-
 app.use(errorHandler);
 
 app.listen(3000, () => console.log(`Server started`));
