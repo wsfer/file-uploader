@@ -1,17 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link rel="stylesheet" href="styles/style.css">
-</head>
+<%- include('../partials/head', { title: 'Homepage' }) %>
 <body>
-  <p>Welcome <%= locals.user?.username %></p>
-  <p>Your password is <%= locals.user?.password %></p>
-  <form action="/logout" method="post">
-    <button type="submit">Logout</button>
-  </form>
-  Home
+  <%- include('../partials/header') %>
+  Homepage
 </body>
 </html>
