@@ -1,11 +1,25 @@
 <header class="bg-sky-400 p-2">
   <div class="flex w-4/5 max-w-7xl mx-auto">
     <a href="/">Home</a>
-    <nav class="ml-auto">
-      <ul class="flex gap-2">
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
-      </ul>
-    </nav>
+
+    <% if (locals.user) { %>
+      <nav class="ml-auto">
+        <ul class="flex gap-2">
+          <li><a href="/folder">Drive</a></li>
+          <li>
+            <form action="/logout" method="post">
+              <button type="submit">Logout</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    <% } else { %>
+      <nav class="ml-auto">
+        <ul class="flex gap-2">
+          <li><a href="/login">Login</a></li>
+          <li><a href="/register">Register</a></li>
+        </ul>
+      </nav>
+    <% } %>
   </div>
 </header>
