@@ -30,11 +30,14 @@ model User {
 }
 
 model Folder {
-  id      String @id @default(uuid())
-  name    String
-  owner   User   @relation(fields: [ownerId], references: [id])
-  ownerId String
-  files   File[]
+  id           String   @id @default(uuid())
+  name         String
+  owner        User     @relation(fields: [ownerId], references: [id])
+  ownerId      String
+  files        File[]
+  subfolders   Folder[] @relation("Subfolders")
+  parentFolder Folder?  @relation("Subfolders", fields: [parentId], references: [id])
+  parentId     String?
 }
 
 model File {
