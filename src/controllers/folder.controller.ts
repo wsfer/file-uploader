@@ -2,8 +2,14 @@ import asyncHandler from 'express-async-handler';
 import prisma from '../modules/prisma';
 import { User } from '../../generated/prisma';
 
+// TODO: create a middleware to check if user is logged in before to stop typescript errors
 const getUserRootFolder = asyncHandler(async (req, res) => {
-  res.send('not implemented');
+  const user: User = req.user;
+  const userRootFolder = await prisma.folder.findFirst({
+    where: { parentId: null, ownerId: user.id },
+  });
+
+  res.render('folder/index', { folder: userRootFolder });
 });
 
 const getFolder = asyncHandler(async (req, res) => {
