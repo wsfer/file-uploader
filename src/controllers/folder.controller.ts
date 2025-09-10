@@ -7,6 +7,9 @@ const getUserRootFolder = asyncHandler(async (req, res) => {
   const user: User = req.user;
   const userRootFolder = await prisma.folder.findFirst({
     where: { parentId: null, ownerId: user.id },
+    include: {
+      subfolders: true,
+    },
   });
 
   res.render('folder/index', { folder: userRootFolder });
@@ -17,7 +20,17 @@ const getFolder = asyncHandler(async (req, res) => {
 });
 
 const postFolder = asyncHandler(async (req, res) => {
-  res.send('not implemented');
+  const user: User = req.user;
+  const parentFolderId: string = req.params.id;
+  const newFolder = await prisma.folder.create({
+    data: {
+      name: req.body.name,
+      owner: { connect: { id: user.id } },
+      parentFolder: { connect: { id: parentFolderId } },
+    },
+  });
+
+  res.redirect(`/folder/${newFolder.id}`);
 });
 
 const renameFolder = asyncHandler(async (req, res) => {

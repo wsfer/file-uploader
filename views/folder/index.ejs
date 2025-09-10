@@ -3,7 +3,23 @@
 <%- include('../partials/head', { title: 'Folder' }) %>
 <body>
   <%- include('../partials/header') %>
+
+  <h2>Folder info</h2>
   <p>Id: <%= folder.id %></p>
   <p>Name: <%= folder.name %></p>
+
+  <% if (folder.subfolders?.length > 0) { %>
+    <h2>Subfolders</h2>
+    <ul>
+      <% folder.subfolders.forEach((subfolder) => { %>
+        <li><a href="/folder/<%= subfolder.id %>"><%= subfolder.name %></a></li>
+      <% }) %>
+    </ul>
+  <% } %>
+  <form action="/folder/<%= folder.id %>" method="post">
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name">
+    <button type="submit">Create folder</button>
+  </form>
 </body>
 </html>
