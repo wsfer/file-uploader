@@ -16,7 +16,16 @@ const getUserRootFolder = asyncHandler(async (req, res) => {
 });
 
 const getFolder = asyncHandler(async (req, res) => {
-  res.send('not implemented');
+  const folderId: string = req.params.id;
+  const folder = await prisma.folder.findUnique({
+    where: { id: folderId },
+    include: {
+      parentFolder: true,
+      subfolders: true,
+    },
+  });
+
+  res.render('folder/index', { folder: folder });
 });
 
 const postFolder = asyncHandler(async (req, res) => {
