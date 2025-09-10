@@ -23,9 +23,15 @@ const postLogin = passport.authenticate('local', {
 const postRegister = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
+  const userRootFolder = { name: '.' };
 
   await prisma.user.create({
-    data: { username, email, password: hashedPassword },
+    data: {
+      username,
+      email,
+      password: hashedPassword,
+      folders: { create: [userRootFolder] },
+    },
   });
 
   res.redirect('/');
