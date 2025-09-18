@@ -47,7 +47,7 @@ const getFolder = asyncHandler(async (req, res) => {
     const isOwner = folder.ownerId === user.id;
 
     if (isOwner) {
-      return res.render('folder/index', { folder: folder });
+      return res.render('folder/folder', { folder: folder });
     }
 
     return res.status(403).send('Not allowed');
