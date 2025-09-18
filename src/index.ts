@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/', userRouter);
-app.use('/folder', folderRouter);
+app.use('/drive', folderRouter);
 app.use('/file', fileRouter);
 
 app.use(errorHandler);
