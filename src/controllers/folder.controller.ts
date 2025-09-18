@@ -70,7 +70,7 @@ const postFolder = asyncHandler(async (req, res) => {
       },
     });
 
-    return res.redirect(`/folder/${newFolder.id}`);
+    return res.redirect(`/drive/${newFolder.id}`);
   }
 
   return res.status(401).redirect('/login');
