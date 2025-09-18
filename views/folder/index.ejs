@@ -1,32 +1,52 @@
+<% const folderHasSubfolders = folder.subfolders.length > 0; %>
+<% const folderHasFiles = folder.files.length > 0; %>
+<% const isFolderEmpty = !folderHasSubfolders && !folderHasFiles; %>
+
 <!DOCTYPE html>
 <html lang="en">
-<%- include('../partials/head', { title: 'Folder' }) %>
+<%- include('../partials/head', { title: 'Drive' }) %>
 <body>
   <%- include('../partials/header') %>
+  <main class="bg-sky-200">
+    <h1 class="text-3xl text-neutral-900 text-center">Welcome to your drive</h1>
 
-  <% if (folder.parentFolder) { %>
-    <a href="/folder/<%= folder.parentFolder.id %>">
-      previous: <%= folder.parentFolder.name %>
-    </a>
-  <% } %>
+    <div class="bg-sky-300 text-center">TODO: some user profile here</div>
 
-  <h2>Folder info</h2>
-  <p>Id: <%= folder.id %></p>
-  <p>Name: <%= folder.name %></p>
+    <div class="w-4/5 max-w-7xl mx-auto">
+      <h2 class="text-xl text-neutral-800">Explore your drive</h2>
 
-  <% if (folder.subfolders?.length > 0) { %>
-    <h2>Subfolders</h2>
-    <ul>
-      <% folder.subfolders.forEach((subfolder) => { %>
-        <li><a href="/folder/<%= subfolder.id %>"><%= subfolder.name %></a></li>
-      <% }) %>
-    </ul>
-  <% } %>
-  
-  <form action="/folder/<%= folder.id %>" method="post">
-    <label for="name">Name:</label>
-    <input type="text" name="name" id="name">
-    <button type="submit">Create folder</button>
-  </form>
+      <% if (folderHasSubfolders) { %>
+        <h3 id="folders-title" class="absolute inset-x-9999">Folders</h3>
+        <ul aria-labelledby="folders-title">
+          <% folder.subfolders.forEach((subfolder) => { %>
+            <li class="before:content-['📁']">
+              <a href="/drive/<%= subfolder.id %>" class="text-neutral-800 hover:text-sky-800">
+                <%= subfolder.name %>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+
+      <% if (folderHasFiles) { %>
+        <h3 id="files-title" class="absolute inset-x-9999">Files</h3>
+        <ul aria-labelledby="files-title">
+          NOT IMPLEMENTED
+        </ul>
+      <% } %>
+      
+      <% if (isFolderEmpty) { %>
+        <p class="text-neutral-700 text-lg">Your drive is empty</p>
+      <% } %>
+    </div>
+
+    <h2 class="text-xl text-neutral-800">Add Folder</h2>
+    <form action="/drive/<%= folder.id %>" method="post" class="bg-sky-300">
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name">
+      <button type="submit">Create folder</button>
+    </form>
+  </main>
+
 </body>
 </html>
