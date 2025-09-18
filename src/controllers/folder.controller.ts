@@ -14,6 +14,7 @@ const getUserRootFolder = asyncHandler(async (req, res) => {
       where: { parentId: null, ownerId: user.id },
       include: {
         subfolders: true,
+        files: true,
       },
     });
 
@@ -34,6 +35,7 @@ const getFolder = asyncHandler(async (req, res) => {
       include: {
         parentFolder: true,
         subfolders: true,
+        files: true,
       },
     });
 
