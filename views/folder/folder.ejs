@@ -29,7 +29,13 @@
       <% if (folderHasFiles) { %>
         <h3 id="files-title" class="absolute inset-x-9999">Files</h3>
         <ul aria-labelledby="files-title">
-          NOT IMPLEMENTED
+          <% folder.files.forEach((file) => { %>
+            <li class="before:content-['📄']">
+              <a href="/file/<%= file.id %>" class="text-neutral-800 hover:text-sky-800">
+                <%= file.name %>
+              </a>
+            </li>
+          <% }) %>
         </ul>
       <% } %>
       
@@ -38,12 +44,34 @@
       <% } %>
     </div>
 
-    <h2 id="create-folder-title" class="text-xl text-neutral-800">Add Folder</h2>
-    <form action="/drive/<%= folder.id %>" method="post" class="bg-sky-300">
-      <label for="name">Name:</label>
-      <input type="text" name="name" id="name">
-      <button type="submit">Create folder</button>
-    </form>
+    <div class="w-4/5 max-w-7xl mx-auto">
+      <h2 id="create-folder-title" class="text-xl text-neutral-800">Add Folder</h2>
+      <form
+        aria-labelledby="create-folder-title"
+        action="/drive/<%= folder.id %>"
+        method="post"
+        class="bg-sky-300"
+      >
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name">
+        <button type="submit">Create folder</button>
+      </form>
+    </div>
+
+    <div class="w-4/5 max-w-7xl mx-auto">
+      <h2 id="create-file-title" class="text-xl text-neutral-800">Add File</h2>
+      <form
+        aria-labelledby="create-file-title"
+        action="/file/<%= folder.id %>"
+        method="post"
+        enctype="multipart/form-data"
+        class="bg-sky-300"
+      >
+        <label for="file">File:</label>
+        <input type="file" name="file" id="file">
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   </main>
 </body>
 </html>
