@@ -3,6 +3,54 @@
 <%- include('../partials/head', { title: 'Homepage' }) %>
 <body>
   <%- include('../partials/header') %>
-  Homepage
+  <main>
+    <div class="bg-amber-100 py-20">
+      <h1 class="text-5xl text-center font-bold text-neutral-900">Your Drive</h1>
+    </div>
+    <div class="bg-sky-200 py-10">
+      <div class="flex flex-wrap w-4/5 max-w-7xl mx-auto gap-4 justify-center">
+        <article class="bg-sky-300 w-70 p-2 text-neutral-900">
+          <h2 class="text-lg text-center mb-2">🧑 You personal storage</h2>
+          <p class="text-sm text-neutral-800">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt dolor molestias esse praesentium commodi facilis provident nemo doloribus eos quam dicta non assumenda, id debitis tempore nam consequuntur corrupti odio?
+          </p>
+        </article>
+        <article class="bg-sky-300 w-70 p-2">
+          <h2 class="text-lg text-center mb-2 text-neutral-900">📦 Store anything</h2>
+          <p class="text-sm text-neutral-800">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus inventore sunt debitis nisi tempore praesentium deserunt veniam dolores excepturi corrupti, tenetur quae esse provident deleniti officia a reiciendis iste corporis.
+          </p>
+        </article>
+        <article class="bg-sky-300 w-70 p-2">
+          <h2 class="text-lg text-center mb-2 text-neutral-900">🚀 Share with anyone</h2>
+          <p class="text-sm text-neutral-800">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad voluptas molestiae, consequatur voluptatum quasi minima, dolor animi velit ut repellendus unde. Architecto nesciunt ex, nobis quia quod fuga reiciendis amet?
+          </p>
+        </article>
+      </div>
+    </div>
+  </main>
+  <section>
+    <div class="bg-sky-300 p-10">
+      <div class="w-4/5 max-w-7xl mx-auto">
+        <h2 class="text-xl text-center mb-4 text-neutral-900">
+          Sign up for free
+        </h2>
+        <ul class="list-['🔥'] w-70 mx-auto bg-sky-400 p-2 list-inside text-neutral-800">
+          <li>Receive up to 999GB storage</li>
+          <li>Unlimited storage time</li>
+          <li>Another thing here</li>
+          <li>Lorem ipsum dolor sit</li>
+        </ul>
+        <a
+          href="/register"
+          class="block bg-amber-200 mx-auto w-fit mt-4 p-2 hover:bg-amber-300 text-neutral-900 text-base rounded-md"
+        >
+          Sign up
+        </a>
+      </div>
+    </div>
+  </section>
+  <%- include('../partials/footer') %>
 </body>
 </html>
