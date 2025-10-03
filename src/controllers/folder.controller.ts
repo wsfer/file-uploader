@@ -1,6 +1,7 @@
+import { User } from '../../generated/prisma';
 import asyncHandler from 'express-async-handler';
 import prisma from '../modules/prisma';
-import { User } from '../../generated/prisma';
+import NotFoundError from '../errors/NotFound.error';
 
 // TODO: return a pretty HTML page for 404 and 403 responses
 // TODO: validate inputs
@@ -40,7 +41,7 @@ const getFolder = asyncHandler(async (req, res) => {
     });
 
     if (!folder) {
-      return res.status(404).send('Not found');
+      throw new NotFoundError('Folder not found');
     }
 
     // TODO: add share feature and check if another user can access

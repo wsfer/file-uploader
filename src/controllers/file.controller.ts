@@ -2,6 +2,7 @@ import { User } from '../../generated/prisma';
 import asyncHandler from 'express-async-handler';
 import prisma from '../modules/prisma';
 import upload from '../middlewares/upload.middleware';
+import NotFoundError from '../errors/NotFound.error';
 
 const isFolderOwner = asyncHandler(async (req, res, next) => {
   const isLoggedIn = Boolean(req.user);
@@ -12,7 +13,7 @@ const isFolderOwner = asyncHandler(async (req, res, next) => {
     const folder = await prisma.folder.findUnique({ where: { id: folderId } });
 
     if (!folder) {
-      return res.status(404).send('Not found');
+      throw new NotFoundError('Folder not found');
     }
 
     if (folder.ownerId === user.id) {
@@ -53,7 +54,7 @@ const postFile = [
     }
 
     // TODO: validate file
-    throw new Error('File not found');
+    throw new NotFoundError('File not found');
   }),
 ];
 
