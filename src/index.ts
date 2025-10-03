@@ -1,11 +1,11 @@
 import express from 'express';
 import session from './middlewares/session.middleware';
 import passport from './modules/passport';
-import prisma from './modules/prisma';
 import userRouter from './routes/user.routes';
 import folderRouter from './routes/folder.routes';
 import fileRouter from './routes/file.routes';
 import errorHandler from './middlewares/errorHandler.middleware';
+import NotFoundError from './errors/NotFound.error';
 
 const app = express();
 
@@ -24,6 +24,10 @@ app.use((req, res, next) => {
 app.use('/', userRouter);
 app.use('/drive', folderRouter);
 app.use('/file', fileRouter);
+
+app.use((req, res) => {
+  res.render('errors/index', { error: new NotFoundError('Page not found') });
+});
 
 app.use(errorHandler);
 
