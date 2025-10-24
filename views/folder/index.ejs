@@ -29,33 +29,47 @@
           </button>
         </nav>
 
-        <div class="col-span-2">
+        <table class="col-span-2 text-neutral-700">
+          <tr class="text-neutral-800 text-left">
+            <th>type</th>
+            <th>name</th>
+            <th>actions</th>
+          </tr>
           <% if (folderHasSubfolders) { %>
-            <h2 id="folders-title" class="absolute inset-x-9999">Folders</h3>
-            <ul aria-labelledby="folders-title">
-              <% folder.subfolders.forEach((subfolder) => { %>
-                <li class="before:content-['📁']">
+            <% folder.subfolders.forEach((subfolder) => { %>
+              <tr>
+                <td>📁</td>
+                <td>
                   <a href="/drive/<%= subfolder.id %>" class="text-neutral-800 hover:text-sky-800">
                     <%= subfolder.name %>
                   </a>
-                </li>
-              <% }) %>
-            </ul>
+                </td>
+                <%# TODO: implement rename and delete %>
+                <td>
+                  <button>Rename</button>
+                  <button>Delete</button>
+                </td>
+              </tr>
+            <% }) %>
           <% } %>
           
           <% if (folderHasFiles) { %>
-            <h2 id="files-title" class="absolute inset-x-9999">Files</h3>
-            <ul aria-labelledby="files-title">
-              <% folder.files.forEach((file) => { %>
-                <li class="before:content-['📄']">
+            <% folder.files.forEach((file) => { %>
+              <tr>
+                <td>📄</td>
+                <td>
                   <a href="/file/<%= file.id %>" class="text-neutral-800 hover:text-sky-800">
                     <%= file.name %>
                   </a>
-                </li>
-              <% }) %>
-            </ul>
+                </td>
+                <td>
+                  <button>Rename</button>
+                  <button>Delete</button>
+                </td>
+              </tr>
+            <% }) %>
           <% } %>
-          </div>
+        </table>
       </div>
       
       <% if (isFolderEmpty) { %>
