@@ -1,0 +1,13 @@
+<div class="hidden bg-sky-300 p-2 mb-2" id="file-form">
+  <h2 id="create-file-title" class="text-xl text-neutral-800 mb-2">Add File</h2>
+  <form
+    aria-labelledby="create-file-title"
+    action="/file/<%= folder.id %>"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <label for="file" class="text-neutral-800">File:</label>
+    <input type="file" name="file" id="file" class="bg-sky-400 mx-2 focus:bg-amber-200 rounded-sm px-2">
+    <button type="submit" class="bg-amber-300 hover:bg-amber-400 px-4 cursor-pointer rounded-sm">Submit</button>
+  </form>
+</div>

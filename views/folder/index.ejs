@@ -13,15 +13,14 @@
       <div class="grid grid-cols-value-[1fr auto]">
         <h1 class="text-2xl text-neutral-800 my-4">Your drive</h2>
 
-        <%# TODO: make these buttons triggers popup forms %>
         <nav class="col-2 my-4 justify-self-end">
-          <button>
+          <button onclick="(() => {document.querySelector('#folder-form').classList.toggle('hidden')})()">
             <svg class="w-6 cursor-pointer fill-amber-500 hover:fill-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <title>Add Folder</title>
               <path class="fill-inherit" d="M13 19C13 19.34 13.04 19.67 13.09 20H4C2.9 20 2 19.11 2 18V6C2 4.89 2.89 4 4 4H10L12 6H20C21.1 6 22 6.89 22 8V13.81C21.12 13.3 20.1 13 19 13C15.69 13 13 15.69 13 19M20 18V15H18V18H15V20H18V23H20V20H23V18H20Z" />
             </svg>
           </button>
-          <button>
+          <button onclick="(() => {document.querySelector('#file-form').classList.toggle('hidden')})()">
             <svg class="w-6 cursor-pointer fill-amber-500 hover:fill-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <title>Add file</title>
               <path class="fill-inherit" d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
@@ -29,6 +28,14 @@
           </button>
         </nav>
 
+        <div class="col-span-2">
+          <%- include('../partials/folder-form') %>
+        </div>
+
+        <div class="col-span-2">
+          <%- include('../partials/file-form') %>
+        </div>
+        
         <table class="col-span-2 text-neutral-700">
           <tr class="text-neutral-800 text-left">
             <th>type</th>
@@ -75,35 +82,6 @@
       <% if (isFolderEmpty) { %>
         <p class="text-neutral-700 text-lg">Your drive is empty</p>
       <% } %>
-    </div>
-
-    <div class="w-4/5 max-w-7xl mx-auto">
-      <h2 id="create-folder-title" class="text-xl text-neutral-800">Add Folder</h2>
-      <form
-        aria-labelledby="create-folder-title"
-        action="/drive/<%= folder.id %>"
-        method="post"
-        class="bg-sky-300"
-      >
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name">
-        <button type="submit">Create folder</button>
-      </form>
-    </div>
-
-    <div class="w-4/5 max-w-7xl mx-auto">
-      <h2 id="create-file-title" class="text-xl text-neutral-800">Add File</h2>
-      <form
-        aria-labelledby="create-file-title"
-        action="/file/<%= folder.id %>"
-        method="post"
-        enctype="multipart/form-data"
-        class="bg-sky-300"
-      >
-        <label for="file">File:</label>
-        <input type="file" name="file" id="file">
-        <button type="submit">Submit</button>
-      </form>
     </div>
   </main>
 </body>
