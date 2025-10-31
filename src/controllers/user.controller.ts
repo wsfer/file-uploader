@@ -1,9 +1,11 @@
 import { validationResult } from 'express-validator';
+import { User } from '../../generated/prisma';
 import bcrypt from 'bcryptjs';
 import asyncHandler from 'express-async-handler';
 import passport from '../modules/passport';
 import prisma from '../modules/prisma';
 import validateUser from '../middlewares/validateUser.middleware';
+import validateLogin from '../middlewares/validateLogin.middleware';
 
 const getIndex = asyncHandler(async (req, res) => {
   res.render('user/index');
@@ -17,10 +19,37 @@ const getRegister = asyncHandler(async (req, res) => {
   res.render('user/register');
 });
 
-const postLogin = passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-});
+const postLogin = [
+  validateLogin,
+  asyncHandler(async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.render('user/login', {
+        errors: errors.mapped(),
+        values: req.body,
+      });
+    }
+
+    passport.authenticate('local', (err: Error, user: User) => {
+      if (err) throw err;
+
+      if (!user) {
+        const formErrors = {
+          username: { msg: 'User not found or wrong password' },
+          password: { msg: 'User not found or wrong password' },
+        };
+
+        return res.render('user/login', {
+          errors: formErrors,
+          values: req.body,
+        });
+      }
+
+      req.login(user, () => res.redirect('drive'));
+    })(req, res);
+  }),
+];
 
 const postRegister = [
   validateUser,
