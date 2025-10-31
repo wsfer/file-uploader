@@ -9,19 +9,43 @@
         <div class="flex flex-col gap-4">
           <div>
             <label for="username" class="block">Username</label>
-            <input type="text" name="username" id="username" class="border border-neutral-800 bg-sky-300">
+            <input
+              type="text"
+              name="username"
+              id="username"
+              class="border border-neutral-800 bg-sky-300"
+              value="<%= locals.values?.username || ''%>"
+            >
+            <% if (locals.errors?.username) { %>
+              <p><%= errors.username.msg %></p>
+            <% } %>
           </div>
           <div>
             <label for="email" class="block">Email</label>
-            <input type="email" name="email" id="email" class="border border-neutral-800 bg-sky-300">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              class="border border-neutral-800 bg-sky-300"
+              value="<%= locals.values?.email || ''%>"
+            >
+            <% if (locals.errors?.email) { %>
+              <p><%= errors.email.msg %></p>
+            <% } %>
           </div>
           <div>
             <label for="password" class="block">Password</label>
             <input type="password" name="password" id="password" class="border border-neutral-800 bg-sky-300">
+            <% if (locals.errors?.password) { %>
+              <p><%= errors.password.msg %></p>
+            <% } %>
           </div>
           <div>
             <label for="confirm-password" class="block">Confirm password</label>
             <input type="password" name="confirmPassword" id="confirm-password" class="border border-neutral-800 bg-sky-300">
+            <% if (locals.errors?.confirmPassword) { %>
+              <p><%= errors.confirmPassword.msg %></p>
+            <% } %>
           </div>
           <button type="submit" class="border border-neutral-800 px-2">Submit</button>
         </div>
