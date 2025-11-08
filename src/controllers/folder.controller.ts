@@ -81,8 +81,8 @@ const postFolder = [
       const viewToRender = isRootFolder ? 'folder/index' : 'folder/folder';
 
       return res.render(viewToRender, {
-        errors: errors.mapped(),
-        values: req.body,
+        postFolderErrors: errors.mapped(),
+        postFolderValues: req.body,
         folder: parentFolder,
       });
     }
@@ -105,9 +105,47 @@ const postFolder = [
   }),
 ];
 
-const renameFolder = asyncHandler(async (req, res) => {
-  res.send('not implemented');
-});
+const renameFolder = [
+  validateFolder,
+  asyncHandler(async (req, res) => {
+    const isLoggedIn = Boolean(req.user);
+
+    if (isLoggedIn) {
+      const errors = validationResult(req);
+      const folderId: string = req.params.id;
+      const user: User = req.user as User;
+      const newName = req.body.name;
+      const folder = await prisma.folder.findUnique({
+        where: { id: folderId, ownerId: user.id },
+        include: {
+          parentFolder: true,
+          subfolders: true,
+          files: true,
+        },
+      });
+
+      if (!folder) {
+        throw new NotFoundError('Folder not found');
+      }
+
+      if (!errors.isEmpty() && isLoggedIn) {
+        return res.render('folder/folder', {
+          renameFolderErrors: errors.mapped(),
+          renameFolderValues: req.body,
+          folder: folder,
+        });
+      }
+
+      await prisma.folder.update({
+        where: { id: folderId },
+        data: { name: newName },
+      });
+
+      return res.redirect(`/drive/${folder.id}`);
+    }
+    return res.status(401).redirect('/login');
+  }),
+];
 
 const deleteFolder = asyncHandler(async (req, res) => {
   const isLoggedIn = Boolean(req.user);

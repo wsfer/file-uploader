@@ -1,0 +1,23 @@
+<% const hasErrors = Boolean(locals.renameFolderErrors?.name) %>
+
+<div class="<%= hasErrors ? '' : 'hidden ' %>bg-sky-300 p-2 mb-2 shadow-md" id="rename-form">
+  <h2 id="rename-folder-title" class="text-xl text-neutral-900 mb-2">Rename Folder</h2>
+  <form
+    aria-labelledby="rename-folder-title"
+    action="/drive/rename/<%= folder.id %>"
+    method="post"
+  >
+    <label for="name" class="text-neutral-800">Name:</label>
+    <input
+      type="text"
+      name="name"
+      id="name"
+      class="bg-sky-400 mx-2 focus:bg-amber-200 rounded-sm px-2"
+      value="<%= locals.renameFolderValues?.name || locals.folder.name %>"
+    >
+    <% if (hasErrors) { %>
+      <p><%= renameFolderErrors.name.msg %></p>
+    <% } %>
+    <button type="submit" class="bg-amber-300 hover:bg-amber-400 px-4 cursor-pointer rounded-sm">Submit</button>
+  </form>
+</div>

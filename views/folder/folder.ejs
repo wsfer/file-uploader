@@ -13,6 +13,12 @@
         <h1 class="text-2xl text-neutral-800 my-4">📁 <%= folder.name %></h2>
 
         <nav class="col-2 my-4 justify-self-end">
+          <button onclick="(() => {document.querySelector('#rename-form').classList.toggle('hidden')})()">
+            <svg class="w-6 cursor-pointer fill-amber-500 hover:fill-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <title>Rename folder</title>
+              <path class="fill-inherit" d="M15 16L11 20H21V16H15M12.06 7.19L3 16.25V20H6.75L15.81 10.94L12.06 7.19M18.71 8.04C19.1 7.65 19.1 7 18.71 6.63L16.37 4.29C16.17 4.09 15.92 4 15.66 4C15.41 4 15.15 4.1 14.96 4.29L13.13 6.12L16.88 9.87L18.71 8.04Z" />
+            </svg>
+          </button>
           <button onclick="(() => {document.querySelector('#folder-form').classList.toggle('hidden')})()">
             <svg class="w-6 cursor-pointer fill-amber-500 hover:fill-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <title>Add Folder</title>
@@ -35,6 +41,10 @@
           <%- include('../partials/file-form') %>
         </div>
 
+        <div class="col-span-2">
+          <%- include('../partials/rename-form') %>
+        </div>
+
         <table class="col-span-2 text-neutral-700">
           <tr class="text-neutral-800 text-left">
             <th>type</th>
@@ -50,9 +60,7 @@
                     <%= subfolder.name %>
                   </a>
                 </td>
-                <%# TODO: implement rename and delete %>
                 <td>
-                  <button>Rename</button>
                   <form action="/drive/delete/<%= subfolder.id %>" method="post">
                     <button>Delete</button>
                   </form>
