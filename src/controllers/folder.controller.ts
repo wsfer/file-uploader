@@ -110,7 +110,39 @@ const renameFolder = asyncHandler(async (req, res) => {
 });
 
 const deleteFolder = asyncHandler(async (req, res) => {
-  res.send('not implemented');
+  const isLoggedIn = Boolean(req.user);
+
+  if (isLoggedIn) {
+    const user: User = req.user as User;
+    const folderId: string = req.params.id;
+    const folder = await prisma.folder.findUnique({
+      where: { id: folderId },
+      include: {
+        parentFolder: true,
+      },
+    });
+
+    if (!folder) {
+      throw new NotFoundError('Folder not found');
+    }
+
+    const isRootFolder = folder.parentId === null;
+    const isOwner = folder.ownerId === user.id;
+
+    // Root folder should never be deleted
+    if (!isRootFolder && isOwner) {
+      const isParentRootFolder = folder.parentFolder?.parentId === null;
+      const URLToRedirect = isParentRootFolder
+        ? '/drive'
+        : `/drive/${folder.parentId}`;
+
+      await prisma.folder.delete({ where: { id: folderId } });
+
+      return res.redirect(URLToRedirect);
+    }
+
+    return res.status(403).send('Not allowed');
+  }
 });
 
 export default {

@@ -54,7 +54,9 @@
                 <%# TODO: implement rename and delete %>
                 <td>
                   <button>Rename</button>
-                  <button>Delete</button>
+                  <form action="/drive/delete/<%= subfolder.id %>" method="post">
+                    <button>Delete</button>
+                  </form>
                 </td>
               </tr>
             <% }) %>
