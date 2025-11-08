@@ -1,4 +1,6 @@
-<div class="hidden bg-sky-300 p-2 mb-2" id="folder-form">
+<% const hasErrors = Boolean(locals.errors?.name) %>
+
+<div class="<%= hasErrors ? '' : 'hidden ' %>bg-sky-300 p-2 mb-2" id="folder-form">
   <h2 id="create-folder-title" class="text-xl text-neutral-900 mb-2">Add Folder</h2>
   <form
     aria-labelledby="create-folder-title"
@@ -6,7 +8,16 @@
     method="post"
   >
     <label for="name" class="text-neutral-800">Name:</label>
-    <input type="text" name="name" id="name" class="bg-sky-400 mx-2 focus:bg-amber-200 rounded-sm px-2">
+    <input
+      type="text"
+      name="name"
+      id="name"
+      class="bg-sky-400 mx-2 focus:bg-amber-200 rounded-sm px-2"
+      value="<%= locals.values?.name || ''%>"
+    >
+    <% if (hasErrors) { %>
+      <p><%= errors.name.msg %></p>
+    <% } %>
     <button type="submit" class="bg-amber-300 hover:bg-amber-400 px-4 cursor-pointer rounded-sm">Submit</button>
   </form>
 </div>
