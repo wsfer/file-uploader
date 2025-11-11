@@ -5,13 +5,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../partials/head', { title: 'Drive' }) %>
-<body>
+<body class="bg-sky-200 min-h-screen flex flex-col">
   <%- include('../partials/header') %>
-  <main class="bg-sky-200">
-
+  <main>
     <div class="w-4/5 max-w-7xl mx-auto">
       <div class="grid grid-cols-value-[1fr auto]">
-        <h1 class="text-2xl text-neutral-800 my-4">Your drive</h2>
+        <h1 class="text-2xl text-neutral-800 my-4">🗂️ Your drive</h2>
 
         <nav class="col-2 my-4 justify-self-end">
           <button onclick="(() => {document.querySelector('#folder-form').classList.toggle('hidden')})()">
@@ -36,24 +35,29 @@
           <%- include('../partials/file-form') %>
         </div>
         
-        <table class="col-span-2 text-neutral-700">
-          <tr class="text-neutral-800 text-left">
-            <th>type</th>
-            <th>name</th>
-            <th>actions</th>
+        <table class="col-span-2 text-neutral-700 bg-sky-300 shadow-md my-4">
+          <tr class="text-neutral-800 text-left odd:bg-sky-400">
+            <th class="px-2 py-1">type</th>
+            <th class="px-2 py-1">name</th>
+            <th class="px-2 py-1">actions</th>
           </tr>
           <% if (folderHasSubfolders) { %>
             <% folder.subfolders.forEach((subfolder) => { %>
-              <tr>
-                <td>📁</td>
-                <td>
+              <tr class="odd:bg-sky-400">
+                <td class="px-2 py-1 w-4">📁</td>
+                <td class="px-2 py-1">
                   <a href="/drive/<%= subfolder.id %>" class="text-neutral-800 hover:text-sky-800">
                     <%= subfolder.name %>
                   </a>
                 </td>
-                <td>
+                <td class="px-2 py-1">
                   <form action="/drive/delete/<%= subfolder.id %>" method="post">
-                    <button>Delete</button>
+                    <button class="block">
+                      <svg class="w-6 cursor-pointer fill-amber-500 hover:fill-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <title>Delete</title>
+                        <path class="fill-inherit" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+                      </svg>
+                    </button>
                   </form>
                 </td>
               </tr>
@@ -62,16 +66,22 @@
           
           <% if (folderHasFiles) { %>
             <% folder.files.forEach((file) => { %>
-              <tr>
-                <td>📄</td>
-                <td>
+              <tr class="odd:bg-sky-400">
+                <td class="px-2 py-1 w-4">📄</td>
+                <td class="px-2 py-1">
                   <a href="/file/<%= file.id %>" class="text-neutral-800 hover:text-sky-800">
                     <%= file.name %>
                   </a>
                 </td>
-                <td>
-                  <button>Rename</button>
-                  <button>Delete</button>
+                <td class="px-2 py-1">
+                  <form action="/file/delete/<%= file.id %>" method="post">
+                    <button class="block">
+                      <svg class="w-6 cursor-pointer fill-amber-500 hover:fill-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <title>Delete</title>
+                        <path class="fill-inherit" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+                      </svg>
+                    </button>
+                  </form>
                 </td>
               </tr>
             <% }) %>
@@ -84,5 +94,6 @@
       <% } %>
     </div>
   </main>
+  <%- include('../partials/footer') %>
 </body>
 </html>
