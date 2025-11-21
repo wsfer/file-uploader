@@ -42,13 +42,14 @@ model Folder {
 }
 
 model File {
-  id       String @id @default(uuid())
-  name     String
-  mimetype String
-  path     String
-  size     Int
-  folder   Folder @relation(fields: [folderId], references: [id])
-  folderId String
-  owner    User   @relation(fields: [ownerId], references: [id])
-  ownerId  String
+  id        String   @id @default(uuid())
+  name      String
+  mimetype  String
+  path      String
+  size      Int
+  folder    Folder   @relation(fields: [folderId], references: [id])
+  folderId  String
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  createdAt DateTime @default(now())
 }
