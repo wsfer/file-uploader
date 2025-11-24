@@ -5,6 +5,7 @@ const fileRouter = Router();
 
 fileRouter.get('/:id', fileController.getFile);
 fileRouter.post('/:id', fileController.postFile);
+fileRouter.get('/download/:id', fileController.downloadFile);
 fileRouter.post('/rename/:id', fileController.renameFile);
 fileRouter.post('/delete/:id', fileController.deleteFile);
 

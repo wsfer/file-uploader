@@ -78,6 +78,30 @@ const postFile = [
   }),
 ];
 
+const downloadFile = asyncHandler(async (req, res) => {
+  const isLoggedIn = Boolean(req.user);
+  const fileId = req.params.id;
+
+  if (isLoggedIn) {
+    const file = await prisma.file.findUnique({ where: { id: fileId } });
+
+    if (!file) {
+      throw new NotFoundError('File not found');
+    }
+
+    const user: User = req.user as User;
+    const isOwner = file.ownerId === user.id;
+
+    if (isOwner) {
+      return res.download(file.path);
+    }
+
+    return res.status(403).send('Not allowed');
+  }
+
+  return res.status(401).redirect('/login');
+});
+
 const renameFile = asyncHandler(async (req, res) => {
   res.send('not implemented');
 });
@@ -86,4 +110,4 @@ const deleteFile = asyncHandler(async (req, res) => {
   res.send('not implemented');
 });
 
-export default { getFile, postFile, renameFile, deleteFile };
+export default { getFile, postFile, downloadFile, renameFile, deleteFile };
