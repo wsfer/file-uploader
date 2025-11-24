@@ -35,12 +35,31 @@
             <th class="text-neutral-900 font-normal text-left bg-sky-400 px-2 py-1">
               Created at
             </th>
-            <td class="text-neutral-700 px-2 py-1"><%= file.createdAt %></td>
+            <td
+              id="timestamp-field"
+              class="text-neutral-700 px-2 py-1"
+              data-timestamp="<%= file.createdAt %>"
+            ></td>
           </tr>
         </table>
       </div>
     </div>
   </main>
+  <script>
+    (() => {
+      const timestampField = document.querySelector('#timestamp-field');
+      const timestampDate = new Date(timestampField.dataset.timestamp);
+      const dateOptions = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      }
+      const displayDate = new Intl.DateTimeFormat(undefined, dateOptions).format(timestampDate);
+      timestampField.textContent = displayDate;
+    })();
+  </script>
   <%- include('../partials/footer') %>
 </body>
 </html>
