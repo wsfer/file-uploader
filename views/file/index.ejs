@@ -45,6 +45,17 @@
               data-timestamp="<%= file.createdAt %>"
             ></td>
           </tr>
+          <tr>
+            <th class="text-neutral-900 font-normal text-left bg-sky-400 px-2 py-1">
+              Download
+            </th>
+            <td class="text-neutral-900 px-2 py-1">
+              <a class="hover:text-amber-800" href="/file/download/<%= file.id %>" download="<%= file.name %>">
+                <%= file.name %>
+                <span>📥</span>
+              </a>
+            </td>
+          </tr>
         </table>
       </div>
     </div>
