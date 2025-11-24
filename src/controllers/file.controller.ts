@@ -1,4 +1,5 @@
 import { User } from '../../generated/prisma';
+import fs from 'node:fs/promises';
 import asyncHandler from 'express-async-handler';
 import prisma from '../modules/prisma';
 import upload from '../middlewares/upload.middleware';
@@ -126,6 +127,7 @@ const deleteFile = asyncHandler(async (req, res) => {
         : `/drive/${file.folder.id}`;
 
       await prisma.file.delete({ where: { id: fileId } });
+      await fs.rm(file.path);
 
       return res.redirect(URLToRedirect);
     }
