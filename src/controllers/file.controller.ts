@@ -102,12 +102,36 @@ const downloadFile = asyncHandler(async (req, res) => {
   return res.status(401).redirect('/login');
 });
 
-const renameFile = asyncHandler(async (req, res) => {
-  res.send('not implemented');
-});
-
 const deleteFile = asyncHandler(async (req, res) => {
-  res.send('not implemented');
+  const isLoggedIn = Boolean(req.user);
+
+  if (isLoggedIn) {
+    const user: User = req.user as User;
+    const fileId: string = req.params.id;
+    const file = await prisma.file.findUnique({
+      where: { id: fileId },
+      include: { folder: true },
+    });
+
+    if (!file) {
+      throw new NotFoundError('File not found');
+    }
+
+    const isOwner = file.ownerId === user.id;
+
+    if (isOwner) {
+      const isFileFolderRoot = file.folder.parentId === null;
+      const URLToRedirect = isFileFolderRoot
+        ? '/drive'
+        : `/drive/${file.folder.id}`;
+
+      await prisma.file.delete({ where: { id: fileId } });
+
+      return res.redirect(URLToRedirect);
+    }
+
+    return res.status(403).send('Not allowed');
+  }
 });
 
-export default { getFile, postFile, downloadFile, renameFile, deleteFile };
+export default { getFile, postFile, downloadFile, deleteFile };
