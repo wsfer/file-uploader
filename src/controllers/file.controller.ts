@@ -27,7 +27,27 @@ const isFolderOwner = asyncHandler(async (req, res, next) => {
 });
 
 const getFile = asyncHandler(async (req, res) => {
-  res.send('not implemented');
+  const isLoggedIn = Boolean(req.user);
+  const fileId = req.params.id;
+
+  if (isLoggedIn) {
+    const file = await prisma.file.findUnique({ where: { id: fileId } });
+
+    if (!file) {
+      throw new NotFoundError('File not found');
+    }
+
+    const user: User = req.user as User;
+    const isOwner = file.ownerId === user.id;
+
+    if (isOwner) {
+      return res.render('file/index', { file });
+    }
+
+    return res.status(403).send('Not allowed');
+  }
+
+  return res.status(401).redirect('/login');
 });
 
 const postFile = [
