@@ -57,7 +57,6 @@ const postFile = [
   asyncHandler(async (req, res) => {
     const user: User = req.user as User;
     const folderId: string = req.params.id;
-    const fileInfo = req.file;
 
     if (req.file) {
       const createdFile = await prisma.file.create({
@@ -69,9 +68,15 @@ const postFile = [
           folder: { connect: { id: folderId } },
           owner: { connect: { id: user.id } },
         },
+        include: {
+          folder: true,
+        },
       });
 
-      return res.redirect(`/drive/${folderId}`);
+      const isFileFolderRoot = createdFile.folder.parentId === null;
+      const URLToRedirect = isFileFolderRoot ? '/drive' : `/drive/${folderId}`;
+
+      return res.redirect(URLToRedirect);
     }
 
     // TODO: validate file
