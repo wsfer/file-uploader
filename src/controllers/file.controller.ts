@@ -57,8 +57,9 @@ const postFile = [
   asyncHandler(async (req, res) => {
     const user: User = req.user as User;
     const folderId: string = req.params.id;
+    const hasFile: boolean = Boolean(req.file);
 
-    if (req.file) {
+    if (hasFile) {
       const createdFile = await prisma.file.create({
         data: {
           name: req.file.originalname,
@@ -79,8 +80,26 @@ const postFile = [
       return res.redirect(URLToRedirect);
     }
 
-    // TODO: validate file
-    throw new NotFoundError('File not found');
+    const folder = await prisma.folder.findUnique({
+      where: { id: folderId, ownerId: user.id },
+      include: {
+        parentFolder: true,
+        subfolders: true,
+        files: true,
+      },
+    });
+
+    if (!folder) {
+      throw new NotFoundError('Folder not found');
+    }
+
+    const isRootFolder = folder.parentFolder === null;
+    const viewToRender = isRootFolder ? 'folder/index' : 'folder/folder';
+
+    return res.render(viewToRender, {
+      fileErrors: { emptiness: { msg: 'No file selected' } },
+      folder: folder,
+    });
   }),
 ];
 

@@ -1,4 +1,6 @@
-<div class="hidden bg-sky-300 p-2 my-2 shadow-md" id="file-form">
+<% const hasErrors = Boolean(locals.fileErrors?.emptiness) %>
+
+<div class="<%= hasErrors ? '' : 'hidden ' %>bg-sky-300 p-2 my-2 shadow-md" id="file-form">
   <h2 id="create-file-title" class="text-xl text-neutral-800 mb-2">Add File</h2>
   <form
     aria-labelledby="create-file-title"
@@ -7,7 +9,15 @@
     enctype="multipart/form-data"
   >
     <label for="file" class="text-neutral-800">File:</label>
-    <input type="file" name="file" id="file" class="bg-sky-400 mx-2 focus:bg-amber-200 rounded-sm px-2">
+    <input
+      type="file"
+      name="file"
+      id="file"
+      class="bg-sky-400 mx-2 cursor-pointer focus:bg-amber-200 hover:bg-amber-300 rounded-sm px-2"
+    >
     <button type="submit" class="bg-amber-300 hover:bg-amber-400 px-4 cursor-pointer rounded-sm">Submit</button>
+    <% if (hasErrors) { %>
+      <p class="text-sm text-red-500 mt-2"><%= fileErrors.emptiness.msg %></p>
+    <% } %>
   </form>
 </div>
